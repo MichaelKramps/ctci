@@ -1,3 +1,5 @@
+// Implement an algorithm to determine if a string has all unique values.
+//
 #include <iostream>
 #include <string>
 #include <cstdint>
