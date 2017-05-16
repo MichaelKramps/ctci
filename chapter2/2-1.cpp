@@ -14,15 +14,17 @@ void removeDuplicates(std::list<int> &list)
 {
 	std::unordered_set<int> listValues;
 
-	for (std::list<int>::iterator i = list.begin(); i != list.end(); ++i)
+	std::list<int>::iterator i = list.begin();
+	while (i != list.end())
 	{
 		if (listValues.find(*i) != listValues.end())
 		{
-			list.erase(i);
+			list.erase(i++);
 		}
 		else
 		{
 			listValues.insert(*i);
+			++i;
 		}
 	}
 }
