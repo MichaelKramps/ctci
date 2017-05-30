@@ -24,17 +24,9 @@ public:
 		p_leftNode = nullptr;
 		p_rightNode = nullptr;
 	}
-	void setLeft(Node *left)
-	{
-		p_leftNode = nullptr;
-	}
 	void setLeft(Node left)
 	{
 		p_leftNode = &left;
-	}
-	void setRight(Node *right)
-	{
-		p_rightNode = nullptr;
 	}
 	void setRight(Node right)
 	{
@@ -44,17 +36,19 @@ public:
 
 Node createBinarySearchTree(std::vector<int> &array, int startIndex, int endIndex)
 {
-	if (startIndex < endIndex)
-	{
-		return nullptr;
-	}
 
 	int midIndex{ (startIndex + endIndex) / 2 }; // find midpoint of current subsection
 
 	Node thisNode{ array[midIndex] };
 
-	thisNode.setLeft(createBinarySearchTree(array, startIndex, (midIndex - 1)));
-	thisNode.setRight(createBinarySearchTree(array, (midIndex + 1), endIndex));
+	if ((midIndex - 1) < startIndex)
+	{
+		thisNode.setLeft(createBinarySearchTree(array, startIndex, (midIndex - 1)));
+	}
+	if (endIndex < (midIndex + 1))
+	{
+		thisNode.setRight(createBinarySearchTree(array, (midIndex + 1), endIndex));
+	}
 
 	return thisNode;
 }
@@ -64,6 +58,8 @@ int main()
 	std::vector<int> orderedArray{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 	Node myNode = createBinarySearchTree(orderedArray, 0, static_cast<int>(orderedArray.size()) - 1);
+
+
 
 	return 0;
 }
