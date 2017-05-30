@@ -9,7 +9,7 @@
 // 3. Let's start at the root node and call a recursive function that populates the two nodes below itself.
 
 #include "stdafx.h"
-#include <array>
+#include <vector>
 #include <iostream>
 
 class Node
@@ -19,41 +19,51 @@ private:
 	Node *p_leftNode;
 	Node *p_rightNode;
 public:
-	Node(int value) : m_value{value}
+	Node(int value) : m_value{ value }
 	{
 		p_leftNode = nullptr;
 		p_rightNode = nullptr;
 	}
+	void setLeft(Node *left)
+	{
+		p_leftNode = nullptr;
+	}
+	void setLeft(Node left)
+	{
+		p_leftNode = &left;
+	}
+	void setRight(Node *right)
+	{
+		p_rightNode = nullptr;
+	}
+	void setRight(Node right)
+	{
+		p_rightNode = &right;
+	}
+};
+
+Node createBinarySearchTree(std::vector<int> &array, int startIndex, int endIndex)
+{
+	if (startIndex < endIndex)
+	{
+		return nullptr;
+	}
+
+	int midIndex{ (startIndex + endIndex) / 2 }; // find midpoint of current subsection
+
+	Node thisNode{ array[midIndex] };
+
+	thisNode.setLeft(createBinarySearchTree(array, startIndex, (midIndex - 1)));
+	thisNode.setRight(createBinarySearchTree(array, (midIndex + 1), endIndex));
+
+	return thisNode;
 }
 
-void setNodes(Node &thisNode, std::array<int> &array, int &thisIndex)
+int main()
 {
-	// set left node
-	
-	// run setNodes on left node
-	
-	// set right node
-	
-	// run setNodes on right node
-}
+	std::vector<int> orderedArray{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-Node* createBinarySearchTree(std::array<int> array)
-{
-	// set base node first
-	int baseIndex{(array.size() + 1) / 2};
-	Node baseNode{array[baseIndex]};
-
-	// start recursive call to build
-	setNodes(baseNode, array, baseIndex);
-
-	return baseNode;
-}
-
-int main ()
-{
-	std::array<int, 10> orderedArray {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	
-	Node *myNode = createBinarySearchTree(orderedArray);
+	Node myNode = createBinarySearchTree(orderedArray, 0, static_cast<int>(orderedArray.size()) - 1);
 
 	return 0;
 }
